@@ -1,0 +1,78 @@
+<div id="tips">
+	<div id="function-name">Tips</div>
+	<div id="function-body">
+		<table cellspacing="0" id="body">
+			<tr>
+				<td class="list">
+					<div id="tip-list">
+						<select id="all-tips" multiple="true">
+							<option>Loading...</option>
+						</select>
+					</div>
+				</td>
+				<td>
+					<div class="edit-item" style="display: hidden;">
+						<div class="field-label">Name</div>
+						<div class="field-value"><input type="text" id="name" placeholder="Tip Name" /></div>
+						<div class="field-label">Note</div>
+						<div class="field-value">
+							<p>A response of "1" is required for the tip to continue past the first &amp; second message. You may wish to include text
+							such as, "Reply '1' to continue..." in your tip.</p>
+						</div>
+						
+						<table>
+							<tr><td>
+								<div class="field-label">First Message (English)</div>
+								<div class="field-value">
+									<textarea id="first_message" cols="24" rows="7">Reply "1" to continue.</textarea><br />
+									<span class="okay tip" id="first_count">Loading...</span>
+								</div>
+							</td><td>
+								<div class="field-label">First Message (Spanish)</div>
+								<div class="field-value">
+									<textarea id="first_message_spanish" cols="24" rows="7">Reply "1" to continue.</textarea><br />
+									<span class="okay tip" id="first_count_spanish">Loading...</span>
+								</div>
+							</td></tr>
+							<tr><td>
+								<div class="field-label">Second Message (English)</div>
+								<div class="field-value">
+									<textarea id="second_message" cols="24" rows="7">Reply "1" to continue.</textarea><br />
+									<span class="okay tip" id="second_count">Loading...</span>
+								</div>
+							</td><td>
+								<div class="field-label">Second Message (Spanish)</div>
+								<div class="field-value">
+									<textarea id="second_message_spanish" cols="24" rows="7">Reply "1" to continue.</textarea><br />
+									<span class="okay tip" id="second_count_spanish">Loading...</span>
+								</div>
+							</td></tr>
+							<tr><td>
+								<div class="field-label">Third Message (English)</div>
+								<div class="field-value">
+									<textarea id="third_message" cols="24" rows="7"></textarea><br />
+									<span class="okay tip" id="third_count">Loading...</span>
+								</div>
+							</td><td>			
+								<div class="field-label">Third Message (Spanish)</div>
+								<div class="field-value">
+									<textarea id="third_message_spanish" cols="24" rows="7"></textarea><br />
+									<span class="okay tip" id="third_count_spanish">Loading...</span>
+								</div>
+							</td></tr>
+						</table>
+						<input type="hidden" id="tip_id" />
+					</div>
+					<div class="select-item">
+						<p>Please select a tip.</p>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button class="add-new"> Add </button><button class="remove-selected"> Remove </button> <button class="save"> Save Tip </button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

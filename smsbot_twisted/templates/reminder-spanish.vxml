@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vxml version="1.0" xmlns:smsbot="http://www.audacious-software.com/smsbot">
+	<form id="tip">
+		<field name="one" smsbot:message="one" smsbot:variable="confirm_meeting">
+			<grammar>1|2</grammar>
+			<prompt>ES: Will you be able to meet with your home visitor tomorrow? Reply 1 for yes, 2 for no.</prompt>
+			<filled>
+				<if cond="one == '1'">
+					<smsbot:send smsbot:dest="" smsbot:message="yes"></smsbot:send>
+					<else/>
+					<smsbot:send smsbot:dest="" smsbot:message="no"></smsbot:send>
+				</if>
+			</filled>
+		</field>
+	</form>
+</vxml>

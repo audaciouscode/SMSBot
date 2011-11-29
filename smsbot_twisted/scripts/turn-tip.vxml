@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vxml version="1.0">
+	<form id="tip">
+		<field name="first">
+			<prompt>
+				Turn taking is important, even if baby is only babbling. When talking with baby pause to allow baby time to process each message. This way of PRESS 1 for more.
+			</prompt>
+			<grammar>1</grammar>
+		</field>
+		<field name="second">
+			<prompt>
+				Way of speaking to ur baby as if ur having a conversation with ur baby develops their brain.  PRESS 1 for more.
+			</prompt>
+			<grammar>1</grammar>
+		</field>
+		<field name="third">
+			<prompt>
+				If child only babbles, copy his/her sounds. Or use the words he/she knows how to say. Doing what child can already do will keep him/her involved longer.  
+			</prompt>
+			<grammar>1</grammar>
+		</field>
+	</form>
+</vxml>

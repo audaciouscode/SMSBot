@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vxml version="1.0">
+	<form id="tip">
+		<field name="first">
+			<prompt>
+				This is the first part of a tip. (Reply with 'go on' for the rest of the tip)
+			</prompt>
+			<grammar>go on</grammar>
+			<filled>
+				This is the second part of the tip. Thanks for responding.
+			</filled>
+		</field>
+		<field name="second">
+			<prompt>
+				This is the first part of the second tip. (Reply with 'moo' for the rest of the tip)
+			</prompt>
+			<grammar>moo</grammar>
+			<filled>
+				This is the second part of the second tip. Thanks for responding.
+			</filled>
+		</field>
+	</form>
+</vxml>

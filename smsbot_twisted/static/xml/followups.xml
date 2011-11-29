@@ -1,0 +1,76 @@
+<div id="followups">
+	<div id="function-name">Followups</div>
+	<div id="function-body">
+		<table cellspacing="0" id="body">
+			<tr>
+				<td class="list">
+					<div id="followup-list">
+						<select id="all-followups" multiple="true">
+							<option>Loading...</option>
+						</select>
+					</div>
+				</td>
+				<td>
+					<div class="edit-item" style="display: hidden;">
+						<div class="field-label">Name</div>
+						<div class="field-value"><input type="text" id="name" placeholder="Followup Name" /></div>
+						<div class="field-label">Note</div>
+						<div class="field-value">
+							The initial question expects a positive or negative answer. If the user responds "1", the positive response question will be asked, and this also expects a 1 or 2 answer. If the user responds 2 to the original question, the negative response will be sent. This response does not ask for an answer.
+						</div>
+						<table>
+							<tr><td>
+								<div class="field-label">Inital Question (English)</div>
+								<div class="field-value">
+									<textarea id="question" cols="24" rows="7"></textarea><br />
+									<span class="okay tip" id="question_count">Loading...</span>
+								</div>
+							</td><td>
+								<div class="field-label">Inital Question (Spanish)</div>
+								<div class="field-value">
+									<textarea id="question_spanish" cols="24" rows="7"></textarea><br />
+									<span class="okay tip" id="question_count_spanish">Loading...</span>
+								</div>
+							</td></tr>
+							<tr><td>
+								<div class="field-label">Positive Response Question<br />(1 / English)</div>
+								<div class="field-value">
+									<textarea id="positive" cols="24" rows="7"></textarea><br />
+									<span class="okay tip" id="positive_count">Loading...</span>
+								</div>
+							</td><td>
+								<div class="field-label">Positive Response Question<br />(1 / Spanish)</div>
+								<div class="field-value">
+									<textarea id="positive_spanish" cols="24" rows="7"></textarea><br />
+									<span class="okay tip" id="positive_count_spanish">Loading...</span>
+								</div>
+							</td></tr>
+							<tr><td>
+								<div class="field-label">Negative Response<br />(2 / English)</div>
+								<div class="field-value">
+									<textarea id="negative" cols="24" rows="7"></textarea><br />
+									<span class="okay tip" id="negative_count">Loading...</span>
+								</div>
+							</td><td>
+								<div class="field-label">Negative Response<br />(2 / Spanish)</div>
+								<div class="field-value">
+									<textarea id="negative_spanish" cols="24" rows="7"></textarea><br />
+									<span class="okay tip" id="negative_count_spanish">Loading...</span>
+								</div>
+							</td></tr>
+						</table>
+						<input type="hidden" id="followup_id" />
+					</div>
+					<div class="select-item">
+						<p>Please select a followup.</p>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button class="add-new"> Add </button><button class="remove-selected"> Remove </button> <button class="save"> Save Followup </button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

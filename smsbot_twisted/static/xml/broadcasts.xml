@@ -1,0 +1,47 @@
+<div id="broadcasts">
+	<div id="function-name">Broadcasts</div>
+	<div id="function-body">
+		<table cellspacing="0" id="body">
+			<tr>
+				<td class="list">
+					<div id="broadcast-list">
+						<select id="all-broadcasts" multiple="true">
+							<option>Loading...</option>
+						</select>
+					</div>
+				</td>
+				<td>
+					<div class="edit-item" style="display: hidden;">
+						<div class="field-label">Name</div>
+						<div class="field-value"><input type="text" id="name" placeholder="Broadcast Name" /></div>
+						
+						<table>
+							<tr><td>
+								<div class="field-label">English</div>
+								<div class="field-value">
+									<textarea id="message" cols="24" rows="7"></textarea><br />
+									<span class="okay tip" id="message_count">Loading...</span>
+								</div>
+							</td><td>
+								<div class="field-label">Spanish</div>
+								<div class="field-value">
+									<textarea id="message_spanish" cols="24" rows="7"></textarea><br />
+									<span class="okay tip" id="message_count_spanish">Loading...</span>
+								</div>
+							</td></tr>
+						</table>
+						<input type="hidden" id="broadcast_id" />
+					</div>
+					<div class="select-item">
+						<p>Please select a broadcast.</p>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button class="add-new"> Add </button><button class="remove-selected"> Remove </button> <button class="save"> Save Broadcast </button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

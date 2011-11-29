@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vxml version="1.0">
+	<form id="tip">
+		<field name="ready">
+			<prompt>
+				We would like to ask a few questions about parenting. PRESS 1 when you have 5 minutes to answer the questions.
+			</prompt>
+			<grammar>1</grammar>
+		</field>
+		<field name="confirm">
+			<prompt>
+				You indicated that you are ready answer a few questions about parenting. PRESS 1 to continue.
+			</prompt>
+			<grammar>1</grammar>
+		</field>
+		<field name="ready">
+			<prompt>
+				We would like to ask a few questions about parenting. PRESS 1 when you have 5 minutes to answer the questions.
+			</prompt>
+			<grammar>1</grammar>
+		</field>
+		<field name="ready">
+			<prompt>
+				We would like to ask a few questions about parenting. PRESS 1 when you have 5 minutes to answer the questions.
+			</prompt>
+			<grammar>1</grammar>
+			<filled>
+				For each statement, please focus on your youngest child, and enter the response which best represents your opinion.
+			</filled>
+		</field>
+
+		<field name="understand">
+			<prompt>
+				How easy is it for u to understand what ur child wants or needs? Very easy=1; Easy=2, Somewhat difficult=3; Very hard=4; Usually can’t figure out the problem=5
+			</prompt>
+			<grammar>1</grammar>
+			<grammar>2</grammar>
+			<grammar>3</grammar>
+			<grammar>4</grammar>
+			<grammar>5</grammar>
+		</field>
+
+		<field name="develop-prompt">
+			<prompt>
+				It takes a long time for parents to develop close, warm feelings for their children. PRESS 1 to continue.
+			</prompt>
+			<grammar>1</grammar>
+		</field>
+
+		<field name="develop">
+			<prompt>
+				Long time to develop close warm feelings: If u strongly disagree=1; If u disagree=2; If u agree=3; If u strongly agree=4; If u are not sure=*
+			</prompt>
+			<grammar>1</grammar>
+			<grammar>2</grammar>
+			<grammar>3</grammar>
+			<grammar>4</grammar>
+			<grammar>*</grammar>
+		</field>
+
+		<field name="warm-prompt">
+			<prompt>
+				I expected to have closer and warmer feelings for my child than I do and this bothers me. PRESS 1 to continue.
+			</prompt>
+			<grammar>1</grammar>
+		</field>
+
+		<field name="warm">
+			<prompt>
+				Expected closer warmer feelings and this bothers me: If u strongly disagree=1; If u disagree=2; If u agree=3; If u strongly agree=4; If u are not sure=*
+			</prompt>
+			<grammar>1</grammar>
+			<grammar>2</grammar>
+			<grammar>3</grammar>
+			<grammar>4</grammar>
+			<grammar>*</grammar>
+		</field>
+
+		<field name="bother">
+			<prompt>
+				Sometimes my child does things that bother me just to be mean: If strongly disagree=1; If disagree=2; If agree=3; If strongly agree=4; If not sure=*
+			</prompt>
+			<grammar>1</grammar>
+			<grammar>2</grammar>
+			<grammar>3</grammar>
+			<grammar>4</grammar>
+			<grammar>*</grammar>
+			
+			<filled>
+				Thank you for completing this survey!
+			</filled>
+		</field>
+	</form>
+</vxml>

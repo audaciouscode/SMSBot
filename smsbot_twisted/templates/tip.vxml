@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vxml version="1.0" xmlns:smsbot="http://www.audacious-software.com/smsbot">
+	<form id="tip">
+		<field name="first" smsbot:message="first" smsbot:variable="first_tip">
+			<prompt />
+			<grammar>1</grammar>
+		</field>
+		<field name="second" smsbot:message="second" smsbot:variable="second_tip">
+			<prompt />
+			<grammar>1</grammar>
+		</field>
+		<block smsbot:message="third" />
+	</form>
+</vxml>

@@ -1,0 +1,48 @@
+<div id="scheduler">
+	<div id="function-name">Scheduler</div>
+	<div id="function-body">
+		<table cellspacing="0" id="body">
+			<tr>
+				<td class="list">
+					<div id="message-list">
+						<select id="all-messages" multiple="true">
+							<option>Loading...</option>
+						</select>
+					</div>
+				</td>
+				<td>
+					<div class="edit-item" style="display: hidden;">
+						<div class="field-label">Recipient(s)</div>
+						<div class="field-value">
+							<input type="text" id="recipients" />
+							<input type="hidden" id="recipient-id" />
+						</div>
+						<div class="field-label">Preview</div>
+						<div class="field-value">
+							<div id="message-preview">
+								Message Preview
+							</div>
+							<input type="hidden" id="message-id" />
+						</div>
+						<div class="field-label">Date &amp; Time</div>
+						<div class="field-value">
+							<input type="text" id="datetime" /><br />
+							<input type="checkbox" id="part_time" /> Send at participant's preferred time.<br />
+							<input type="checkbox" id="random_time" /> Insert random delay (0-4 hours).
+						</div>
+					</div>
+					<div class="select-item">
+						<p>Please select a message.</p>
+					</div>
+				</td>
+
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button class="save"> Schedule Message </button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

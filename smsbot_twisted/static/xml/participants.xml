@@ -1,0 +1,89 @@
+<div id="participants">
+	<div id="function-name">Participants</div>
+	<div id="function-body">
+		<table cellspacing="0" id="body">
+			<tr>
+				<td class="list">
+					<div id="participant-list">
+						<select id="all-participants" multiple="true">
+							<option>Loading...</option>
+						</select>
+					</div>
+				</td>
+				<td>
+					<div class="edit-item" style="display: hidden;">
+						<div class="field-label">Parent Name</div>
+						<div class="field-value"><input type="text" id="part_parent_name" placeholder="Parent Name" size="64"  /></div>
+						<table>
+							<tr><td>
+								<div class="field-label">Case Number</div>
+								<div class="field-value"><input type="text" id="part_case_number" placeholder="Case Number" /></div>
+							</td><td style="width:40px" /><td>
+								<div class="field-label">Speaks Spanish</div>
+								<div class="field-value"><input type="checkbox" id="part_spanish" /></div>
+							</td></tr>
+							<tr><td>
+								<div class="field-label">Best Hour To Send</div>
+								<div class="field-value"><input type="text" id="part_hour" /><br />(Use 24 hour scheme: 0 - 23)</div>
+							</td><td /><td>
+								<div class="field-label">Parent Mobile Number</div>
+								<div class="field-value"><input type="text" id="part_mobile_number_a" placeholder="(555) 555-5555" /></div>
+							</td></tr>
+							<tr><td>
+								<div class="field-label">Other Mobile Number (optional)</div>
+								<div class="field-value"><input type="text" id="part_mobile_number_b" placeholder="(555) 555-5555" /></div>
+							</td><td /><td>
+								<div class="field-label">Other Mobile Number (optional)</div>
+								<div class="field-value"><input type="text" id="part_mobile_number_c" placeholder="(555) 555-5555" /></div>
+							</td></tr>
+							<tr><td>
+								<div class="field-label">Other Mobile Number (optional)</div>
+								<div class="field-value"><input type="text" id="part_mobile_number_d" placeholder="(555) 555-5555" /></div>
+							</td><td /><td>
+								<div class="field-label">Other Mobile Number (optional)</div>
+								<div class="field-value"><input type="text" id="part_mobile_number_e" placeholder="(555) 555-5555" /></div>
+							</td></tr>
+							<tr><td>
+								<div class="field-label">Age Group</div>
+								<div class="field-value">
+									<select id="age_group" class="part_age_group">
+										<option value="0-12">0 to 12 months</option>
+										<option value="13-24">13 to 24 months</option>
+										<option value="25-36">25 to 36 months</option>
+										<option value="37-48">37 to 48 months</option>
+										<option value="49-K">49+ months</option>
+										<option value="Interviews">Interviews</option>
+										<option value="Administrators">Administrators</option>
+									</select>
+								</div>
+							</td><td /><td>
+								<div class="field-label">Program</div>
+								<div class="field-value">
+									<select id="program" class="part_program">
+										<option value="IWSE">IWSE</option>
+										<option value="D-65">D-65</option>
+										<option value="Interviews">Interviews</option>
+									</select>
+								</div>
+							</td></tr>
+						</table>
+						<div class="field-label">Home Visitor Name</div>
+						<div class="field-value"><input type="text" id="part_visitor_name" placeholder="Home Visitor Name" size="64" /></div>
+						<div class="field-label">Home Visitor Mobile Number</div>
+						<div class="field-value"><input type="text" id="part_visitor_mobile_number" placeholder="(555) 555-5555" size="64" /></div>
+						
+						<input type="hidden" id="part_id" />
+					</div>
+					<div class="select-item">
+						<p>Please select a participant.</p>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button class="add-new"> Add </button><button class="remove-selected"> Remove </button> <button class="save"> Save Participant </button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

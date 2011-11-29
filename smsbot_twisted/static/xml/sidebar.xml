@@ -1,0 +1,38 @@
+<div>
+	<div id="console-status">
+		<span id="device-status" class="device-unknown">Unknown</span>
+	</div>
+
+	<div class="sidebar-header">System Status</div>
+	<div class="sidebar-section">
+		<a href="#" class="sidebar-link sidebar-overview" onclick="showConsole('overview')">Overview</a>
+	</div>
+
+	<div class="sidebar-header">Participants</div>
+	<div class="sidebar-section">
+		<a href="#" class="sidebar-link sidebar-participants" onclick="showConsole('participants')">Manage Participants</a>
+	</div>
+
+	<div class="sidebar-header">Messages</div>
+	<div class="sidebar-section">
+		<a href="#" class="sidebar-link sidebar-send-message" onclick="showConsole('send-message')">Send Message</a>
+		<a href="#" class="sidebar-link sidebar-broadcasts" onclick="showConsole('broadcasts')">Broadcasts</a>
+		<a href="#" class="sidebar-link sidebar-tips" onclick="showConsole('tips')">Tips</a>
+		<a href="#" class="sidebar-link sidebar-prompts" onclick="showConsole('prompts')">Prompts</a>
+		<a href="#" class="sidebar-link sidebar-followups" onclick="showConsole('followups')">Followups</a>
+<!-- 		<a href="#" class="sidebar-link sidebar-reminders" onclick="showConsole('reminders')">Reminders</a> -->
+		<a href="#" class="sidebar-link sidebar-custom" onclick="showConsole('custom')">Custom Scripts</a>
+	</div>
+
+	<div class="sidebar-header">Scheduler</div>
+	<div class="sidebar-section">
+		<a href="#" class="sidebar-link sidebar-scheduler" onclick="showConsole('scheduler')">Schedule Message</a>
+		<a href="#" class="sidebar-link sidebar-appointment" onclick="showConsole('appointment')">Appt. Reminders</a>
+		<a href="#" class="sidebar-link sidebar-upcoming" onclick="showConsole('upcoming')">Message Schedule</a>
+	</div>
+
+	<div class="sidebar-header">Events</div>
+	<div class="sidebar-section">
+		<a href="#" class="sidebar-link sidebar-events" onclick="showConsole('events')">Event Log</a>
+	</div>
+</div>

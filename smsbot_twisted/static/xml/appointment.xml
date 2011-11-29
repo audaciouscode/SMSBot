@@ -1,0 +1,23 @@
+<div id="scheduler">
+	<div id="function-name">Appointment Reminders</div>
+	<div id="function-body">
+		<table cellspacing="0" id="body">
+			<tr>
+				<td>
+					<div class="edit-item">
+						<div class="field-label">Recipient(s)</div>
+						<div class="field-value">
+							<input type="text" id="recipients" />
+							<input type="hidden" id="recipient-id" />
+						</div>
+						<div class="field-label">Appointment Date &amp; Time</div>
+						<div class="field-value">
+							<input type="text" id="appt_date" /><br />
+						</div>
+					</div>
+					<button class="save" style="text-align: left;"> Schedule Appointment Reminder </button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vxml version="1.0">
+	<form id="tip">
+		<field name="first">
+			<prompt>
+				Did you have a conversation about nothing today? Press 1 for yes Press 2 for no.
+			</prompt>
+			<grammar>1</grammar>
+			<grammar>2</grammar>
+		</field>
+		<field name="second">
+			<prompt>
+				If you want to, please tell us about ur conversation about nothing?
+			</prompt>
+			<filled>Thank you for the details.</filled>
+		</field>
+	</form>
+</vxml>
