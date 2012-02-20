@@ -1,0 +1,136 @@
+SMSBot Twisted API
+
+Introduction
+
+This component of the revised SMSBot system implements the SMS
+sending & receiving portions of the infrastructure. This component has two main
+responsibilities: sending & receiving text messages from the companion Android
+app and conducting scripted VXML dialogs using the included dialog state 
+machines.
+
+Legacy functions such as managing templates, maintaining user accounts & 
+details, and scheduling are now part of Django component of the service.
+
+
+High Level API Description
+
+This API is simple in that there is one endpoint
+(/api) and all parameters are passed in a JSON-encoded dictionary that the
+endpoint interprets as needed. The API does not feature any advanced access
+control beyond a shared secret and is not intended to be exposed to the wider
+Internet in a non-encrypted configuration.
+
+Requests to the API use the following JSON structure:
+
+	{
+		"secret": SHARED_SECRET,
+		"action": ACTION,
+		"parameters": 
+		{
+			KEY: VALUE,
+			KEY: VALUE,
+			...
+		}
+	}
+
+Actions and their associated parameters are defined below. The shared secret is
+the a parameter defined in local_settings.py. If a request does not include the
+the proper secret, the call will fail with an error.
+
+Successful invocations of the API will return JSON using the following form:
+
+	{
+		"success": true, (or false)
+		"results": 
+		{
+			KEY: VALUE,
+			KEY: VALUE,
+			KEY: VALUE,
+			...		
+		}
+	}
+
+If "success" is false, the API encountered an error and the "results" 
+dictionary will contain an "error" pair with a brief name of the error and a
+"description" pair containing the specific error details.
+
+
+Callbacks
+
+During the normal course of operation, this component may need to
+send an uninitiated callback to the web component. The callback URL is defined
+in local_settings.py. The callback payload uses the following JSON form:
+
+	{
+		"notification": NOTIFICATION_NAME,
+		"secret": SHARED_SECRET,
+		"details":
+		{
+			KEY: VALUE,
+			KEY: VALUE,
+			...
+		}
+	}			
+
+The web component is responsible for verifying the shared secret and taking an
+appropriate action associated with the callback. In the action definitions 
+below related callbacks will be described.
+
+
+API Actions
+
+fetch_status: This action queries the server for its status. A successful 
+invocation will return the following values:
+
+	xmpp_server_online: boolean signifying that the XMPP server is reachable
+	
+	xmpp_sender_online: boolean signifying that the message endpoint (phone) is
+					    reachable
+
+There are no callbacks associated with this action.
+
+
+initiate_dialog: This action uses the following parameters to immediately initiate
+an SMS dialog:
+
+	vxml: string containing the VoiceXML script defining the dialog
+
+	recipient: string containing the phone number of the dialog's recipient
+
+	session: string containing a unique UUID associated with this dialog
+
+	retry: number of minutes needed for a dialog to resend the last message 
+		   after a period of no response
+
+	timeout: number of minutes needed for a dialog to timeout and terminate
+			 after a period of no response.
+	
+This endpoint will generate a number of asynchronous callbacks during its
+operation:
+
+	dialog_start: Invoked on the successful initiation of a dialog
+	
+	message_send: Invoked when a message is sent to the recipient. A copy of 
+				  the sent message will passed in the details ("message") as
+				  well as the date when it was sent ("sent").
+				  
+	message_recieve: Invoked when a response is received from the recipient.
+					 The response will be passed in the details ("response") as 
+					 well as the date it was received ("received").
+
+	message_retry: Invoked when a message is resent to the recipient. A copy of 
+				   the sent message will passed in the details ("message") as
+				   well as the date when it was sent ("sent").
+				  
+	variable_set: Invoked when a response sets a variable in the dialog. The
+				  details will include the name of the variable ("key"), its
+				  value ("value") as well as the date it was set ("received").
+				  
+	dialog_complete: Invoked on the successful completion of a dialog.
+	
+	dialog_timeout: Invoked after the recipient does not respond to the dialog
+				    after the specified timeout duration.
+				    
+If a dialog times out, the dialog session is terminated and the web component
+is notified. The responsibility for reinitiating the dialog belongs to the web
+component.
