@@ -1,7 +1,15 @@
 import uuid
 
+import local_settings
+
+if local_settings.DISABLE_GEODJANGO:
+    from django.db.models import Manager
+    from django.db import models
+else:
+    from django.contrib.gis.db.models import GeoManager as Manager
+    from django.contrib.gis.db import models
+
 from django.conf.global_settings import LANGUAGES
-from django.contrib.gis.db import models
 
 from profiles.models import UserProfile
 from services.models import Service
@@ -10,7 +18,8 @@ def make_uuid():
      return str(uuid.uuid4())
 
 class ScheduledMessage(models.Model):
-    objects = models.GeoManager()
+    if not local_settings.DISABLE_GEODJANGO:
+        objects = models.GeoManager()
 
     message = models.TextField(max_length=160)
     
@@ -33,7 +42,8 @@ class ScheduledMessage(models.Model):
 
     
 class ScriptTemplate(models.Model):
-    objects = models.GeoManager()
+    if not local_settings.DISABLE_GEODJANGO:
+        objects = models.GeoManager()
 
     name = models.CharField(max_length=128)
     slug = models.SlugField(max_length=64, unique=True)
@@ -48,7 +58,8 @@ class ScriptTemplate(models.Model):
         pass
 
 class ScheduledScript(models.Model):
-    objects = models.GeoManager()
+    if not local_settings.DISABLE_GEODJANGO:
+        objects = models.GeoManager()
 
     script = models.TextField(max_length=1048576)
     session = models.CharField(max_length=36, unique=True, default=make_uuid) # UUID
@@ -72,7 +83,8 @@ class ScheduledScript(models.Model):
         return self.session + ' (' + self.recipient.user.username + ')'
         
 class ScriptVariable(models.Model):
-    objects = models.GeoManager()
+    if not local_settings.DISABLE_GEODJANGO:
+        objects = models.GeoManager()
 
     script = models.ForeignKey(ScheduledScript, related_name='variables')
     

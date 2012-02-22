@@ -1,4 +1,4 @@
-# Django settings for smsbot_web project.
+import local_settings
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -9,12 +9,20 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'postgresql_psycopg2'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'smsbot'             # Or path to database file if using sqlite3.
-DATABASE_USER = 'smsbot'             # Not used with sqlite3.
-DATABASE_PASSWORD = 'smsbot'         # Not used with sqlite3.
-DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+if local_settings.DISABLE_GEODJANGO:
+	DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+	DATABASE_NAME = 'smsbot_django'             # Or path to database file if using sqlite3.
+	DATABASE_USER = 'root'             # Not used with sqlite3.
+	DATABASE_PASSWORD = 'smsbot'         # Not used with sqlite3.
+	DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
+	DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+else:
+	DATABASE_ENGINE = 'postgresql_psycopg2'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+	DATABASE_NAME = 'smsbot'             # Or path to database file if using sqlite3.
+	DATABASE_USER = 'smsbot'             # Not used with sqlite3.
+	DATABASE_PASSWORD = 'smsbot'         # Not used with sqlite3.
+	DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
+	DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
