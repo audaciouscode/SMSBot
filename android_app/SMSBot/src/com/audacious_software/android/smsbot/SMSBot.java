@@ -212,10 +212,6 @@ public class SMSBot extends Activity
     {
     	switch (item.getItemId())
     	{
-    		case R.id.about:
-    			Intent aboutIntent = new Intent(this, SMSBotAbout.class);
-    			this.startActivity(aboutIntent);
-    			return true;
     		case R.id.settings:
     			Intent settingsIntent = new Intent(this, SMSBotSettings.class);
     			this.startActivity(settingsIntent);

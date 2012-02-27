@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
-	<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/username_label" />
-	<EditText android:layout_width="fill_parent" android:id="@+id/username_field" android:layout_height="wrap_content" android:singleLine="true" />
-	<TextView android:text="@string/password_label" android:layout_width="fill_parent" android:layout_height="wrap_content" />
-	<EditText android:password="true" android:id="@+id/password_field" android:layout_height="wrap_content" android:layout_width="fill_parent" android:singleLine="true" />
-	<TextView android:text="@string/server_label" android:layout_width="fill_parent" android:layout_height="wrap_content" />
-	<EditText android:id="@+id/server_field" android:layout_height="wrap_content" android:layout_width="fill_parent" android:singleLine="true" />
-	<TextView android:text="@string/actions_label" android:layout_width="fill_parent" android:layout_height="wrap_content" />
-	<Button android:id="@+id/settings_save" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:text="@string/save_label" />
-	<Button android:id="@+id/settings_reset" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:text="@string/reset_label" />
-</LinearLayout>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="XMPP Settings">
+		<EditTextPreference
+			android:key="username"
+			android:title="XMPP Username"
+			android:dialogTitle="Enter the XMPP username" />
+		<EditTextPreference
+			android:key="password"
+			android:title="XMPP Password"
+			android:dialogTitle="Enter the XMPP password" />
+		<EditTextPreference
+			android:key="server"
+			android:title="XMPP Server"
+			android:dialogTitle="Enter the XMPP server" />
+	</PreferenceCategory>
+</PreferenceScreen>

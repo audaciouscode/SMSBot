@@ -21,10 +21,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 public class XMPPService extends Service implements ConnectionListener, PacketListener, IQProvider
@@ -34,6 +34,8 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 	private XMPPConnection connection = null;
 	
 	private Handler handler = new Handler();
+
+	private final IBinder binder = new LocalBinder();
 	
 	private Runnable presencePing = new Runnable()
 	{
@@ -51,8 +53,6 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 	        handler.postDelayed(this, 30000);
 		}
 	};
-	
-	private final IBinder binder = new LocalBinder();
 	
     public IBinder onBind(Intent intent) 
     {
@@ -116,10 +116,25 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 
 	private boolean hasValidConfig()
 	{
-		if (this.username().equals("") || this.password().equals("") || this.server().equals("xmpp.server.net"))
-			return false;
+		try
+		{
+	    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+			String username = prefs.getString("username", "");
+			String password = prefs.getString("password", "");
+			String server = prefs.getString("server", "");
+
+			if (username.equals("") || password.equals("") || server.equals(""))
+				return false;
+
+			return true;
+		}
+		catch (NullPointerException e)
+		{
+			
+		}
 		
-		return true;
+		return false;
 	}
 
 	private void setStatus(String status)
@@ -139,14 +154,20 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 		noteManager.notify(R.string.service_started, notification);
 	}
 
-	private void go()
+	public void go()
 	{
 		if (!this.hasValidConfig())
 			return;
-		
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+		String username = prefs.getString("username", "");
+		String password = prefs.getString("password", "");
+		String server = prefs.getString("server", "");
+
 		if (connection == null)
 		{
-			connection = new XMPPConnection(this.server());
+			connection = new XMPPConnection(server);
 			XMPPConnection.DEBUG_ENABLED = true;
 		}
 		
@@ -164,7 +185,7 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 
 			connection.connect();
 
-			connection.login(this.username(), this.password(), "bot");
+			connection.login(username, password, "smsbot");
 
 			this.setStatus("Authenticated...");
 
@@ -186,55 +207,6 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 			this.connecting = false;
 			this.connected = false;
 		}
-	}
-
-	public String username() 
-	{
-		return this.getPreference("username", "");
-	}
-
-	public String password() 
-	{
-		return this.getPreference("password", "");
-	}
-
-	public String server() 
-	{
-		return this.getPreference("server", "xmpp.server.net");
-	}
-
-	private String getPreference(String name, String defaultValue)
-	{
-		SharedPreferences preferences = this.getSharedPreferences("SMSBot", Context.MODE_PRIVATE);
-
-		return preferences.getString(name, defaultValue);
-	}
-
-	public void setUsername(String text) 
-	{
-		this.setPreference("username", text);
-	}
-
-	public void setPassword(String text) 
-	{
-		this.setPreference("password", text);
-	}
-
-	public void setServer(String text) 
-	{
-		this.setPreference("server", text);
-	}
-
-	private void setPreference(String name, String value)
-	{
-		SharedPreferences preferences = this.getSharedPreferences("SMSBot", Context.MODE_PRIVATE);
-		Editor editor = preferences.edit();
-
-		editor.putString(name, value);
-		editor.commit();
-
-		if (!this.connected && !this.connecting)
-			this.go();
 	}
 
 	public void connectionClosed() 
@@ -343,4 +315,5 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
         
         return new ErrorMessage();
     }
+
 }
