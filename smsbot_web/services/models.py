@@ -33,7 +33,7 @@ class Service(models.Model):
     configuration = models.TextField(max_length=4096, default='{}')
     status = models.CharField(max_length=256, default='Unknown', choices=SERVICE_STATUS)
     last_status_check = models.DateTimeField(blank=True, null=True)
-    last_error = models.TextField(max_length=4096, default='')
+    last_error = models.TextField(max_length=4096, blank=True, null=True)
     
     def get_endpoint(self):
         service_module = __import__(self.python_class)

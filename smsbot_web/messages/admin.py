@@ -4,7 +4,7 @@ from messages.models import *
 from services.models import Service
 
 class ScheduledMessageAdmin(admin.OSMGeoAdmin):
-    list_display = ('recipient', 'send_date', 'sent_date', 'confirmed_date')
+    list_display = ('recipient', 'message', 'send_date', 'sent_date', 'confirmed_date')
 
     def transmit_messages(self, request, queryset):
         service = Service.objects.best_service()

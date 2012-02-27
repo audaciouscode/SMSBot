@@ -88,10 +88,10 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'profiles',
     'messages',
-    'scheduler',
     'events',
     'services',
-    'parent_txts',
+    'cbits',
     'twisted_sms',
     'south',
+    'chronograph',
 )
