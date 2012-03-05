@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.marre.sms.SmsPduUtil;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
