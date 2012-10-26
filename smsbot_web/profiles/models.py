@@ -3,11 +3,11 @@ import datetime
 import local_settings
 
 if local_settings.DISABLE_GEODJANGO:
-	from django.db.models import Manager
-	from django.db import models
+    from django.db.models import Manager
+    from django.db import models
 else:
-	from django.contrib.gis.db.models import GeoManager as Manager
-	from django.contrib.gis.db import models
+    from django.contrib.gis.db.models import GeoManager as Manager
+    from django.contrib.gis.db import models
 
 from django.conf.global_settings import LANGUAGES
 from django.contrib.auth.models import User
@@ -23,7 +23,12 @@ class UserProfile(models.Model):
         return self.user.first_name + ' ' + self.user.last_name
         
     def __unicode__(self):
-        return self.full_name() + ' (' + self.user.username + ')'
+        full_name = self.full_name()
+        
+        if full_name != ' ':
+            return full_name + ' (' + self.user.username + ')'
+        
+        return self.user.username
         
     def best_phone(self):
         return self.phone_numbers.order_by('priority')[0].value
