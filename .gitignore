@@ -1,8 +1,14 @@
 *.pyc
 .DS_Store
 twistd.pid
+twistd.log
+twistd.log.*
 django/bin/
 django/include/
 django/lib/
 django/local/
-smsbot/localsettings.py
+django/smsbot/smsbot/localsettings.py
+twisted/bin/
+twisted/include/
+twisted/lib/
+twisted/local/

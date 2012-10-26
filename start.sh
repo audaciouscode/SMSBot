@@ -1,8 +1,10 @@
 #!/bin/bash
 
-export PYTHONPATH=$PYTHONPATH:/usr/local/smsbot/smsbot_twisted
+# export PYTHONPATH=$PYTHONPATH:/usr/local/smsbot/smsbot_twisted
 
-cd /usr/local/smsbot/smsbot_twisted
+cd /var/www/smsbot/SMSBot/twisted/
+source ./bin/activate
+cd smsbot
 
-twistd -y smsbot.tac
+twistd -ny smsbot.tac
 

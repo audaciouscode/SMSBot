@@ -1,0 +1,11 @@
+Pyrex==0.9.8.6
+Twisted==12.2.0
+argparse==1.2.1
+distribute==0.6.24
+python-dateutil==2.1
+python-spidermonkey==0.0.10
+simplejson==2.6.2
+six==1.2.0
+wokkel==0.7.0
+wsgiref==0.1.2
+zope.interface==4.0.1
