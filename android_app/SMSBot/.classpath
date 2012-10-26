@@ -3,7 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="lib/asmack-2010.05.07.jar"/>
-	<classpathentry kind="lib" path="lib/smsj-20051126.jar"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="libs/asmack-2010.05.07.jar"/>
+	<classpathentry kind="lib" path="libs/smsj-20051126.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

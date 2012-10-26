@@ -19,6 +19,8 @@
     <string name="settings_saved_label">Settings saved.</string>
     <string name="settings_reset_label">Settings reset.</string>
 
+    <string name="crash_toast_text">Whoops - the app has crashed. Sending a report to the developer.</string>
+
     <string name="service_started">SMSBot service started.</string>
 
     <string name="toggle_connection">Toggle Connection</string>

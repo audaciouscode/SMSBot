@@ -24,24 +24,24 @@ import android.widget.EditText;
 public class SMSBot extends Activity
 {
 	private XMPPServiceConnection xmppConnection = null;
-    
+
 	protected void onPause()
 	{
         super.onPause();
-        
+
         if (xmppConnection != null)
         	xmppConnection.disconnect();
 	}
-	
+
 	protected void onResume()
 	{
 		final Activity me = this;
 		super.onResume();
 
         ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
-        
+
         boolean start = true;
-        
+
         for (ActivityManager.RunningServiceInfo rsi : am.getRunningServices(Integer.MAX_VALUE))
         {
         	if (rsi.service.getClassName().equals(XMPPService.class.getName()))
@@ -53,9 +53,9 @@ public class SMSBot extends Activity
 
         final Button toggleButton = (Button) findViewById(R.id.toggle_connection);
 
-    	ServiceConnection toggleConnection = new ServiceConnection() 
+    	ServiceConnection toggleConnection = new ServiceConnection()
     	{
-			public void onServiceConnected(ComponentName name, IBinder binder) 
+			public void onServiceConnected(ComponentName name, IBinder binder)
 			{
 				XMPPService xmpp = ((XMPPService.LocalBinder) binder).getService();
 
@@ -63,11 +63,11 @@ public class SMSBot extends Activity
 					toggleButton.setText(R.string.xmpp_disconnect);
 				else
 					toggleButton.setText(R.string.xmpp_connect);
-					
+
 		        me.unbindService(this);
 			}
 
-			public void onServiceDisconnected(ComponentName name) 
+			public void onServiceDisconnected(ComponentName name)
 			{
 
 			}
@@ -75,13 +75,13 @@ public class SMSBot extends Activity
 
     	me.bindService(new Intent(me, XMPPService.class), toggleConnection, Context.BIND_AUTO_CREATE);
 
-    	toggleButton.setOnClickListener(new View.OnClickListener() 
+    	toggleButton.setOnClickListener(new View.OnClickListener()
         {
-            public void onClick(View v) 
+            public void onClick(View v)
             {
-            	ServiceConnection connection = new ServiceConnection() 
+            	ServiceConnection connection = new ServiceConnection()
             	{
-        			public void onServiceConnected(ComponentName name, IBinder binder) 
+        			public void onServiceConnected(ComponentName name, IBinder binder)
         			{
         				XMPPService xmpp = ((XMPPService.LocalBinder) binder).getService();
 
@@ -95,11 +95,11 @@ public class SMSBot extends Activity
         					xmpp.connect();
         					toggleButton.setText(R.string.xmpp_disconnect);
         				}
-        				
+
         		        me.unbindService(this);
         			}
 
-        			public void onServiceDisconnected(ComponentName name) 
+        			public void onServiceDisconnected(ComponentName name)
         			{
 
         			}
@@ -114,7 +114,7 @@ public class SMSBot extends Activity
     	me.bindService(new Intent(me, XMPPService.class), xmppConnection, Context.BIND_AUTO_CREATE);
 	}
 
-	protected void onCreate(Bundle savedInstanceState) 
+	protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
@@ -126,43 +126,43 @@ public class SMSBot extends Activity
         final EditText message = (EditText) findViewById(R.id.message_field);
 
         final Activity me = this;
-        
-        sendButton.setOnClickListener(new View.OnClickListener() 
+
+        sendButton.setOnClickListener(new View.OnClickListener()
         {
-            public void onClick(View v) 
+            public void onClick(View v)
             {
             	String phone = phoneNumber.getText().toString();
             	String note = message.getText().toString();
-            	
+
             	SMSReceiver.getInstance().sendMessage(phone, note, me);
-            	
+
             	message.setText("");
             }
         });
-        
+
         TelephonyManager tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
-        
+
 		ConnectivityManager cm = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);
-		
+
 		boolean smsAvailable = false;
 		boolean wifiAvailable = false;
 
 		if (!tm.getNetworkOperatorName().equals(""))
 			smsAvailable = true;
-		
+
 		NetworkInfo[] nis = cm.getAllNetworkInfo();
-		
+
 		for (int i = 0; i < nis.length; i++)
 		{
 			NetworkInfo ni = nis[i];
-			
+
 			if (ni.getType() == ConnectivityManager.TYPE_WIFI &&  ni.getState() == NetworkInfo.State.CONNECTED)
 				wifiAvailable = true;
 		}
 
 		if (savedInstanceState != null && savedInstanceState.getBoolean("warned", false))
 		{
-			
+
 		}
 		else if (!smsAvailable)
 		{
@@ -171,7 +171,7 @@ public class SMSBot extends Activity
 				.setTitle("Celluar Connection")
 				.setNeutralButton("Quit", new OnClickListener()
 				{
-					public void onClick(DialogInterface arg0, int arg1) 
+					public void onClick(DialogInterface arg0, int arg1)
 					{
 		//				me.finish();
 					}
@@ -185,7 +185,7 @@ public class SMSBot extends Activity
 			.setTitle("Wireless Connection")
 			.setNeutralButton("OK", new OnClickListener()
 			{
-				public void onClick(DialogInterface dialog, int which) 
+				public void onClick(DialogInterface dialog, int which)
 				{
 
 				}
@@ -193,22 +193,22 @@ public class SMSBot extends Activity
 			.show();
 		}
     }
-	
+
 	protected void onSaveInstanceState(Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
-		
+
 		outState.putBoolean("warned", true);
 	}
 
-    public boolean onCreateOptionsMenu(Menu menu) 
+    public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) 
+    public boolean onOptionsItemSelected(MenuItem item)
     {
     	switch (item.getItemId())
     	{

@@ -3,38 +3,27 @@
       package="com.audacious_software.android.smsbot"
       android:versionCode="1"
       android:versionName="1.0">
-    <application android:label="@string/app_name" android:debuggable="true" android:icon="@drawable/smsbot">
-        <activity android:name=".SMSBot"
-                  android:label="@string/app_name" android:launchMode="singleTask">
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="7" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <application android:label="@string/app_name" android:icon="@drawable/smsbot" android:name="SMSBotApplication">
+        <activity android:name=".SMSBot" android:label="@string/app_name" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SMSBotAbout"
-                  android:label="@string/app_name" android:launchMode="singleTask">
-            <intent-filter>
-            </intent-filter>
-        </activity>
-        <activity android:name=".SMSBotSettings"
-                  android:label="@string/app_name" android:launchMode="singleTask">
-            <intent-filter>
-            </intent-filter>
-        </activity>
+        <activity android:name=".SMSBotAbout" android:label="@string/app_name" android:launchMode="singleTask" />
+        <activity android:name=".SMSBotSettings" android:label="@string/app_name" android:launchMode="singleTask" />
 		<service android:name=".XMPPService" android:label="SMSBot Network"/>
-        <receiver android:name=".SMSReceiver"> 
-            <intent-filter> 
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" /> 
-            </intent-filter> 
+        <receiver android:name=".SMSReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
         </receiver>
-
     </application>
-    <uses-sdk android:minSdkVersion="7" />
-
-    <uses-permission android:name="android.permission.WRITE_SMS" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" /> 
-	<uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-</manifest> 
+</manifest>
