@@ -1,14 +1,8 @@
 from datetime import datetime
 import json
 
-import local_settings
-
-if local_settings.DISABLE_GEODJANGO:
-	from django.db.models import Manager
-	from django.db import models
-else:
-	from django.contrib.gis.db.models import GeoManager as Manager
-	from django.contrib.gis.db import models
+from django.contrib.gis.db.models import GeoManager as Manager
+from django.contrib.gis.db import models
 
 
 SERVICE_STATUS = (

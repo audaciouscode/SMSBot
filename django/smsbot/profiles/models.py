@@ -1,13 +1,6 @@
 import datetime
 
-import local_settings
-
-if local_settings.DISABLE_GEODJANGO:
-    from django.db.models import Manager
-    from django.db import models
-else:
-    from django.contrib.gis.db.models import GeoManager as Manager
-    from django.contrib.gis.db import models
+from django.contrib.gis.db import models
 
 from django.conf.global_settings import LANGUAGES
 from django.contrib.auth.models import User

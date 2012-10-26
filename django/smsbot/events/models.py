@@ -1,21 +1,12 @@
-import local_settings
-
-if local_settings.DISABLE_GEODJANGO:
-    from django.db.models import Manager
-    from django.db import models
-else:
-    from django.contrib.gis.db.models import GeoManager as Manager
-    from django.contrib.gis.db import models
-
 from django.contrib.localflavor.us.models import PhoneNumberField
+from django.contrib.gis.db import models
 
 from messages.models import ScheduledScript
 from profiles.models import UserProfile
 
 
 class ScriptEvent(models.Model):
-    if not local_settings.DISABLE_GEODJANGO:
-        objects = models.GeoManager()
+    objects = models.GeoManager()
 
     script = models.ForeignKey(ScheduledScript, related_name='events', null=True)
     event = models.CharField(max_length=128)
@@ -24,8 +15,7 @@ class ScriptEvent(models.Model):
     value = models.TextField(max_length=4096, null=True, blank=True)
 
 class MessageEvent(models.Model):
-    if not local_settings.DISABLE_GEODJANGO:
-        objects = models.GeoManager()
+    objects = models.GeoManager()
 
     type = models.CharField(max_length=256)
 

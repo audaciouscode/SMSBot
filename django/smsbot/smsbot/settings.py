@@ -113,12 +113,20 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.messages',
+    # 'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'django_extensions',
     'south',
     'chronograph',
+    'cbits',
+    'events',
+    'messages',
+    # 'parent_txts',
+    'profiles',
+    'services',
+    'twisted_sms',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
