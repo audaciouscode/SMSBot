@@ -49,5 +49,6 @@ admin.site.register(ScheduledScript, ScheduledScriptAdmin)
 
 class ScriptVariableAdmin(admin.OSMGeoAdmin):
     list_display = ('script', 'key', 'value', 'recv_date')
+    list_filter = ('key', 'recv_date', 'script')
 
 admin.site.register(ScriptVariable, ScriptVariableAdmin)
