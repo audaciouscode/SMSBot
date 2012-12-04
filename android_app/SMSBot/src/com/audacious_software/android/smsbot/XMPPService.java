@@ -25,6 +25,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 public class XMPPService extends Service implements ConnectionListener, PacketListener, IQProvider
@@ -32,56 +33,56 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 	private boolean connected = false;
 	private boolean connecting = false;
 	private XMPPConnection connection = null;
-	
+
 	private Handler handler = new Handler();
 
 	private final IBinder binder = new LocalBinder();
-	
+
 	private Runnable presencePing = new Runnable()
 	{
-		public void run() 
+		public void run()
 		{
 			Presence presence = new Presence(Presence.Type.available);
 
 			presence.setStatus("Awaiting messages...");
-			
+
 			if (connection != null && connection.isConnected())
 				connection.sendPacket(presence);
 			else
 				XMPPService.this.go();
-			
+
 	        handler.postDelayed(this, 30000);
 		}
 	};
-	
-    public IBinder onBind(Intent intent) 
+
+    public IBinder onBind(Intent intent)
     {
     	return binder;
     }
 
-    public class LocalBinder extends Binder 
+    public class LocalBinder extends Binder
     {
-        public XMPPService getService() 
+        public XMPPService getService()
         {
             return XMPPService.this;
         }
     }
-	
+
 	public void onStart (Intent intent, int startId)
 	{
         if (!this.connected && !this.connecting)
 			this.go();
-        
+
         if (intent.hasExtra("sms_message") && intent.hasExtra("sms_source"))
         	this.handleMessage(intent.getStringExtra("sms_source"), intent.getStringExtra("sms_message"), intent.getStringExtra("sms_date"));
 	}
-	
-    public void onCreate() 
+
+    public void onCreate()
     {
         super.onCreate();
 
         handler.postDelayed(presencePing, 30000);
-        
+
         if (!this.connected && !this.connecting)
 			this.go();
     }
@@ -90,7 +91,7 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
     {
     	return this.connected;
     }
-    
+
     public void disconnect()
     {
     	connection.disconnect();
@@ -102,7 +103,7 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 			this.go();
     }
 
-    public void onDestroy() 
+    public void onDestroy()
     {
 		super.onDestroy();
 
@@ -131,9 +132,9 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 		}
 		catch (NullPointerException e)
 		{
-			
+
 		}
-		
+
 		return false;
 	}
 
@@ -150,7 +151,7 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-		
+
 		noteManager.notify(R.string.service_started, notification);
 	}
 
@@ -170,7 +171,7 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 			connection = new XMPPConnection(server);
 			XMPPConnection.DEBUG_ENABLED = true;
 		}
-		
+
 		connection.disconnect();
 
 		this.setStatus("Connecting...");
@@ -203,20 +204,20 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 
 			Toast toast = Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG);
 			toast.show();
-			
+
 			this.connecting = false;
 			this.connected = false;
 		}
 	}
 
-	public void connectionClosed() 
+	public void connectionClosed()
 	{
 		this.setStatus("Disconnected.");
 
 		this.connected = false;
 	}
 
-	public void connectionClosedOnError(Exception e) 
+	public void connectionClosedOnError(Exception e)
 	{
 		this.setStatus("Connection Closed: " + e.getMessage());
 
@@ -228,36 +229,38 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 		this.setStatus("Reconnecting in " + seconds + " seconds...");
 	}
 
-	public void reconnectionFailed(Exception e) 
+	public void reconnectionFailed(Exception e)
 	{
 		this.setStatus("Reconnection failed: " + e.getMessage());
 
 		this.connected = false;
 	}
 
-	public void reconnectionSuccessful() 
+	public void reconnectionSuccessful()
 	{
 		this.setStatus("Reconnection successful.");
 
 		this.connected = true;
 	}
 
-	public void processPacket(Packet packet) 
+	public void processPacket(Packet packet)
 	{
 		IQ iq = (IQ) packet;
-		
+
 		String to = iq.getTo();
-		
+
 		iq.setTo(iq.getFrom());
 		iq.setFrom(to);
-		
+
 		iq.setType(IQ.Type.RESULT);
 
 		connection.sendPacket(iq);
 	}
 
-	public void handleMessage(String source, String message, String date) 
+	public void handleMessage(String source, String message, String date)
 	{
+		Log.e("SMS", "SENDING " + message + " FROM " + source);
+
 		RecvSmsMessage msg = new RecvSmsMessage();
 		msg.source = source;
 		msg.message = message;
@@ -266,30 +269,30 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
 		msg.setFrom("smsbot@boston.audacious-software.com/bot");
 		msg.setTo("smsbackend@boston.audacious-software.com/backend");
 		msg.setType(IQ.Type.SET);
-		
+
 		connection.sendPacket(msg);
 	}
 
-	public IQ parseIQ(XmlPullParser xpp) throws Exception 
+	public IQ parseIQ(XmlPullParser xpp) throws Exception
 	{
 		IQ response = new ErrorMessage();
-		
+
 		int level = 0;
-		
+
         int eventType = xpp.next();
 
-        do 
+        do
         {
-            if (eventType == XmlPullParser.START_TAG) 
+            if (eventType == XmlPullParser.START_TAG)
             {
                 level += 1;
                 return processElement(xpp);
             }
-            else if (eventType == XmlPullParser.END_TAG) 
+            else if (eventType == XmlPullParser.END_TAG)
             	level -= 1;
-            
+
             eventType = xpp.next();
-        } 
+        }
         while (level > 0);
 
 		return response;
@@ -308,11 +311,11 @@ public class XMPPService extends Service implements ConnectionListener, PacketLi
             	SendSmsMessage send = new SendSmsMessage(xpp);
 
         		SMSReceiver.getInstance().sendMessage(send.phone, send.message, this);
-            	
+
             	return send;
             }
         }
-        
+
         return new ErrorMessage();
     }
 
