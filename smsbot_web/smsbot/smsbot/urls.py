@@ -7,5 +7,4 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^services/', include('services.urls')),
-    (r'^cbits/', include('cbits.urls')),
 )
