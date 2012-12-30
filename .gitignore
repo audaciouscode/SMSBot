@@ -1,3 +1,4 @@
 *.pyc
 .DS_Store
 twistd.pid
+smsbot_twisted/venv
