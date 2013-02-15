@@ -3,3 +3,5 @@
 twistd.pid
 smsbot_twisted/venv
 smsbot_web/venv
+local_settings
+*.log

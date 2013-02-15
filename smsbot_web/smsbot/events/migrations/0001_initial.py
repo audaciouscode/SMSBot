@@ -11,7 +11,7 @@ class Migration(SchemaMigration):
         # Adding model 'ScriptEvent'
         db.create_table('events_scriptevent', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('script', self.gf('django.db.models.fields.related.ForeignKey')(related_name='events', null=True, to=orm['messages.ScheduledScript'])),
+            ('script', self.gf('django.db.models.fields.related.ForeignKey')(related_name='events', null=True, to=orm['sms_messages.ScheduledScript'])),
             ('event', self.gf('django.db.models.fields.CharField')(max_length=128)),
             ('date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('value', self.gf('django.db.models.fields.TextField')(max_length=4096, null=True, blank=True)),
@@ -89,10 +89,10 @@ class Migration(SchemaMigration):
             'date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'event': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'script': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'events'", 'null': 'True', 'to': "orm['messages.ScheduledScript']"}),
+            'script': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'events'", 'null': 'True', 'to': "orm['sms_messages.ScheduledScript']"}),
             'value': ('django.db.models.fields.TextField', [], {'max_length': '4096', 'null': 'True', 'blank': 'True'})
         },
-        'messages.scheduledscript': {
+        'sms_messages.scheduledscript': {
             'Meta': {'object_name': 'ScheduledScript'},
             'completed_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'confirmed_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),

@@ -3,11 +3,12 @@ import json
 
 from django.http import HttpResponse
 from django.template import loader, Context
+from django.views.decorators.csrf import csrf_exempt
 
 from events.models import ScriptEvent, MessageEvent
 from sms_messages.models import ScheduledScript, ScriptVariable
 
-
+@csrf_exempt
 def callback(request):
     response =  {}
     response['success'] = False 
