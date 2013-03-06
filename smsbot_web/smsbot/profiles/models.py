@@ -31,7 +31,12 @@ class UserProfile(models.Model):
         return self.user.username
         
     def best_phone(self):
-        return self.phone_numbers.order_by('priority')[0].value
+        try:
+            return self.phone_numbers.filter(active=True).order_by('priority')[0].value
+        except:
+            pass
+            
+        return None
     
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
