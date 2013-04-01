@@ -57,6 +57,9 @@ class ScriptTemplate(models.Model):
     def generate_script(self, values):
         pass
 
+    def __unicode__(self):
+        return self.name + ' (' + self.slug + ')'
+
 class ScheduledScript(models.Model):
     if not local_settings.DISABLE_GEODJANGO:
         objects = models.GeoManager()
@@ -70,6 +73,8 @@ class ScheduledScript(models.Model):
     sent_date = models.DateTimeField(null=True, blank=True)
     confirmed_date = models.DateTimeField(null=True, blank=True)
     completed_date = models.DateTimeField(null=True, blank=True)
+
+    template = models.ForeignKey(ScriptTemplate, related_name='scripts', null=True)
     
     use_recipient_time = models.BooleanField(default=True)
     random_delay = models.IntegerField(default=0)

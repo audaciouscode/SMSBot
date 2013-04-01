@@ -34,3 +34,6 @@ class MessageEvent(models.Model):
 
     message = models.TextField(max_length=256)
     date = models.DateTimeField(auto_now_add=True)
+    
+    def from_system(self):
+        return (self.sender == None)
