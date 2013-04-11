@@ -20,6 +20,8 @@ class ScheduledMessageAdmin(admin.OSMGeoAdmin):
 
     actions = [transmit_messages]
 
+    list_filter = ('send_date', 'sent_date', 'confirmed_date')
+
 admin.site.register(ScheduledMessage, ScheduledMessageAdmin)
 
 class ScriptTemplateAdmin(admin.OSMGeoAdmin):
@@ -28,8 +30,7 @@ class ScriptTemplateAdmin(admin.OSMGeoAdmin):
 admin.site.register(ScriptTemplate, ScriptTemplateAdmin)
 
 class ScheduledScriptAdmin(admin.OSMGeoAdmin):
-    list_display = ('recipient', 'session', 'start_date', 'sent_date', 'confirmed_date', 
-                    'completed_date')
+    list_display = ('recipient', 'session', 'start_date', 'sent_date', 'confirmed_date', 'completed_date', 'template')
 
     def initiate_script(self, request, queryset):
         service = Service.objects.best_service()
@@ -44,6 +45,8 @@ class ScheduledScriptAdmin(admin.OSMGeoAdmin):
     initiate_script.short_description = "Initiate selected scripts immediately"
 
     actions = [initiate_script]
+
+    list_filter = ('start_date', 'sent_date', 'confirmed_date', 'completed_date', 'template')
 
 admin.site.register(ScheduledScript, ScheduledScriptAdmin)
 

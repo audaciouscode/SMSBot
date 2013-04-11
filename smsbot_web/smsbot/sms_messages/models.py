@@ -40,10 +40,42 @@ class ScheduledMessage(models.Model):
     def __unicode__(self):
         return self.message
 
+if local_settings.DISABLE_GEODJANGO:
+    class ScriptTemplateManager(models.Manager):
+        def template_for_language(self, slug, language='en'):
+            lang_slug = slug + '_' + language
+        
+            scripts = super(ScriptTemplateManager, self).filter(slug=lang_slug)
+        
+            if scripts.count() > 0:
+                return scripts[0]
+
+            scripts = super(ScriptTemplateManager, self).filter(slug=slug)
+
+            if scripts.count() > 0:
+                return scripts[0]
+            
+            return None
+else:
+    class ScriptTemplateManager(models.GeoManager):
+        def template_for_language(self, slug, language='en'):
+            lang_slug = slug + '_' + language
+        
+            scripts = super(ScriptTemplateManager, self).filter(slug=lang_slug)
+        
+            if scripts.count() > 0:
+                return scripts[0]
+
+            scripts = super(ScriptTemplateManager, self).filter(slug=slug)
+
+            if scripts.count() > 0:
+                return scripts[0]
+            
+            return None
+
     
 class ScriptTemplate(models.Model):
-    if not local_settings.DISABLE_GEODJANGO:
-        objects = models.GeoManager()
+    objects = ScriptTemplateManager()
 
     name = models.CharField(max_length=128)
     slug = models.SlugField(max_length=64, unique=True)
