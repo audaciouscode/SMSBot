@@ -31,6 +31,8 @@ class ScheduledMessage(models.Model):
 
     use_recipient_time = models.BooleanField(default=True)
     random_delay = models.IntegerField(default=0)
+    
+    service = models.ForeignKey(Service, related_name='messages', null=True)
         
     errors = models.TextField(max_length=4096, blank=True, null=True)
     
@@ -110,6 +112,8 @@ class ScheduledScript(models.Model):
     
     use_recipient_time = models.BooleanField(default=True)
     random_delay = models.IntegerField(default=0)
+
+    service = models.ForeignKey(Service, related_name='scripts', null=True)
     
     errors = models.TextField(max_length=4096, blank=True, null=True)
     

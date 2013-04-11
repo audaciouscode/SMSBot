@@ -8,9 +8,12 @@ class Command(BaseCommand):
     help = 'Immediately initiate selected scripts.'
 
     def handle(self, *args, **options):
-        service = Service.objects.best_service()
+        best_service = Service.objects.best_service()
 
         for script_id in args:
             script = ScheduledScript.objects.get(pk=int(script_id))
 
-            script.initiate(service)
+            if script.service != None:
+                msg.initiate(script.service)
+            else:
+                script.initiate(best_service)

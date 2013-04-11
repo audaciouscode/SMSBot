@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = 'Immediately send selected scheduled messages.'
 
     def handle(self, *args, **options):
-        service = Service.objects.best_service()
+        best_service = Service.objects.best_service()
 
         for message_id in args:
             try:
@@ -16,5 +16,7 @@ class Command(BaseCommand):
             except ScheduledMessage.DoesNotExist:
                 raise ScheduledMessage('Scheduled message "%s" does not exist' % message_id)
 
-            msg.transmit(service)
-            self.stdout.write('Successfully closed poll "%s"\n' % poll_id)
+            if msg.service != None:
+                msg.transmit(msg.service)
+            else:
+                msg.transmit(best_service)

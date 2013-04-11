@@ -11,9 +11,12 @@ class Command(BaseCommand):
     help = 'Initiate any overdue scheduled scripts.'
 
     def handle(self, *args, **options):
-        service = Service.objects.best_service()
+        best_service = Service.objects.best_service()
         
         now = datetime.datetime.utcnow().replace(tzinfo=utc)
         
         for script in ScheduledScript.objects.filter(start_date__lt=now, sent_date__isnull=True):
-            script.initiate(service)
+            if script.service != None:
+                script.initiate(script.service)
+            else:
+                script.initiate(best_service)

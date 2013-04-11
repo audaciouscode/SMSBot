@@ -11,10 +11,12 @@ class Command(BaseCommand):
     help = 'Send any overdue scheduled messages.'
 
     def handle(self, *args, **options):
-        service = Service.objects.best_service()
+        best_service = Service.objects.best_service()
 
         now = datetime.datetime.utcnow().replace(tzinfo=utc)
-
         
         for message in ScheduledMessage.objects.filter(send_date__lt=now, sent_date__isnull=True):
-            message.transmit(service)
+            if message.service != None:
+                message.transmit(message.service)
+            else:
+                message.transmit(best_service)
