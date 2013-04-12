@@ -64,36 +64,7 @@ def parseField(field):
                 if_elements = field_node.getElementsByTagName(u"if")
         
                 if (len(if_elements) > 0):
-                    if_element = if_elements[0]
-            
-                    true_actions = []
-                    false_actions = []
-            
-                    found_else = False
-            
-                    for element_node in if_element.childNodes:
-                        if (element_node.nodeType == Node.ELEMENT_NODE):
-                            if (element_node.nodeName == u"else"):
-                                found_else = True
-                            else:
-                                action_node = None
-
-                                if (element_node.nodeName == u"block"):
-                                    action_node = parseBlock(element_node)
-                                elif (element_node.nodeName == u"field"):
-                                    action_node = parseField(element_node)
-                                elif (element_node.tagName == u"smsbot:send"):
-                                    action_node = parseSend(element_node)
-                                elif (element_node.tagName == u"smsbot:send_variable"):
-                                    action_node = parseSendVariable(element_node, root_node)
-
-                                if action_node is not None:
-                                    if found_else:
-                                        false_actions.append(action_node)
-                                    else:
-                                        true_actions.append(action_node)
-                            
-                    conditional_node = ConditionalNode(prompt_node, if_element.getAttribute(u"cond"), true_actions, false_actions)
+                    conditional_node = parseIf(if_elements[0], prompt_node)
 
                     if (root_node is None):
                         root_node = conditional_node
@@ -141,10 +112,69 @@ def parseForm(form):
             
                 node = field_node
 
+            if (childNode.nodeName == u"if"):
+                if_node = parseIf(childNode)
+
+                if (root_node is None):
+                    root_node = if_node
+        
+                if (node is not None):
+                    node.appendNode(if_node)
+            
+                node = if_node
+
+
 #   if (root_node is not None):
 #       root_node.appendNode(PrintResultsNode(root_node))
         
-    return root_node        
+    return root_node
+    
+def parseIf(if_element, prompt_node=None):
+    root_node = None
+    node = None
+
+    true_actions = []
+    false_actions = []
+            
+    found_else = False
+            
+    for element_node in if_element.childNodes:
+        if (element_node.nodeType == Node.ELEMENT_NODE):
+            if (element_node.nodeName == u"else"):
+                found_else = True
+            else:
+                action_node = None
+
+                if (element_node.nodeName == u"block"):
+                    action_node = parseBlock(element_node)
+                elif (element_node.nodeName == u"field"):
+                    action_node = parseField(element_node)
+                elif (element_node.nodeName == u"if"):
+                    action_node = parseIf(element_node)
+                elif (element_node.tagName == u"smsbot:send"):
+                    action_node = parseSend(element_node)
+                elif (element_node.tagName == u"smsbot:send_variable"):
+                    action_node = parseSendVariable(element_node, root_node)
+
+                if action_node is not None:
+                    if found_else:
+                        false_actions.append(action_node)
+                    else:
+                        true_actions.append(action_node)
+
+        print('true len ' + str(len(true_actions)))
+        print('false len ' + str(len(false_actions)))
+                            
+        cond_node = ConditionalNode(prompt_node, if_element.getAttribute(u"cond"), true_actions, false_actions)
+
+        if (root_node is None):
+            root_node = cond_node
+        
+        if (node is not None):
+            node.appendNode(cond_node)
+            
+    return root_node
+
 
 def parseElement(element):
     if (element.nodeName == u"form"):

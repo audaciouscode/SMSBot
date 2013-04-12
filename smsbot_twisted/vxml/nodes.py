@@ -114,8 +114,9 @@ class ConditionalNode(StateNode):
     def initialCommands(self):
         rt = Runtime()
         cx = rt.new_context()
-
-        cx.add_global(self.value_node.name, self.value_node.value)
+        
+        if self.value_node != None:
+            cx.add_global(self.value_node.name, self.value_node.value)
 
         action_nodes = self.false_nodes
 
