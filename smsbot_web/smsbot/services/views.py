@@ -6,6 +6,7 @@ from django.template import loader, Context
 from django.views.decorators.csrf import csrf_exempt
 
 from events.models import ScriptEvent, MessageEvent
+from profiles.models import PhoneNumber, format_phone
 from sms_messages.models import ScheduledScript, ScriptVariable
 
 @csrf_exempt
@@ -19,23 +20,51 @@ def callback(request):
         message = json.loads(request.POST['message'])
 
         if message['action'] == 'fetch_clarification':
-            template = loader.get_template('clarification.txt')
+            lang_code = ''
+            
+            phone_number = message['parameters']['recipient']
+            
+            phone_number = format_phone(phone_number)
+            
+            phone_objs = PhoneNumber.objects.filter(value=phone_number, active=True).order_by('priority')
+            
+            if phone_objs.count() > 0:
+                lang_code = phone_objs[0].profile.primary_language
+
+            template = None
+            
+            try:
+                template = loader.get_template('clarification_' + lang_code + '.txt')
+            except:
+                template = loader.get_template('clarification.txt')
+
             c = Context({ 'message': message })
 
             response['parameters']['clarification'] = template.render(c)
             response['success'] = True
 
         elif message['action'] == 'fetch_unsolicited_response':
-            request.META['wsgi.errors'].write('1\n')
-            template = loader.get_template('unsolicited_response.txt')
-            request.META['wsgi.errors'].write('2\n')
+            lang_code = ''
+            
+            phone_number = message['parameters']['recipient']
+            
+            phone_number = format_phone(phone_number)
+            
+            phone_objs = PhoneNumber.objects.filter(value=phone_number, active=True).order_by('priority')
+            
+            if phone_objs.count() > 0:
+                lang_code = phone_objs[0].profile.primary_language
+            
+            template = None
+            
+            try:
+                template = loader.get_template('unsolicited_response_' + lang_code + '.txt')
+            except:
+                template = loader.get_template('unsolicited_response.txt')
+            
             c = Context({ 'message': message })
-            request.META['wsgi.errors'].write('3\n')
-
             response['parameters']['response'] = template.render(c)
-            request.META['wsgi.errors'].write('4\n')
             response['success'] = True
-            request.META['wsgi.errors'].write('5\n')
             
         elif message['action'] == 'set_value':
             script = ScheduledScript.objects.get(session=message['parameters']['session'])
