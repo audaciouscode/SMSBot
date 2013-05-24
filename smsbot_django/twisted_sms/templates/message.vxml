@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vxml version="1.0" xmlns:smsbot="http://www.audacious-software.com/smsbot">
+	<form id="message">
+		<block>{{ message }}</block>
+	</form>
+</vxml>
