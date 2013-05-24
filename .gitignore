@@ -4,5 +4,7 @@ twistd.pid
 smsbot_twisted/venv
 smsbot_web/venv
 local_settings
-*.log
+*.log*
 local_settings.py
+smsbot_twilio_*
+smsbot_twisted_*
