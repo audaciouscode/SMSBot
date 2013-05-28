@@ -30,7 +30,7 @@ class ScriptTemplateAdmin(admin.OSMGeoAdmin):
 admin.site.register(ScriptTemplate, ScriptTemplateAdmin)
 
 class ScheduledScriptAdmin(admin.OSMGeoAdmin):
-    list_display = ('recipient', 'session', 'start_date', 'sent_date', 'confirmed_date', 'completed_date', 'template', 'service')
+    list_display = ('recipient', 'tags', 'session', 'start_date', 'sent_date', 'confirmed_date', 'completed_date', 'template', 'service')
 
     def initiate_script(self, request, queryset):
         service = Service.objects.best_service()
