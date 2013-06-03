@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'django.contrib.gis',
     'registration',
+    'simple_history',
     'profiles',
     'sms_messages',
     'events',

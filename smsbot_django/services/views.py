@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import traceback
 
 from django.http import HttpResponse
 from django.template import loader, Context
@@ -8,6 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 from events.models import ScriptEvent, MessageEvent
 from profiles.models import PhoneNumber, format_phone
 from sms_messages.models import ScheduledScript, ScriptVariable
+
+from services.models import AppApi
 
 @csrf_exempt
 def callback(request):
@@ -98,7 +101,15 @@ def callback(request):
 
             response['success'] = True
             response['error']['description'] = ''
-
+            
+            for app in AppApi.objects.all():
+                try:
+                    api = __import__(app.app_name + '.api', globals(), locals(), ['on_receive'], -1)
+                    
+                    api.on_receive(message['parameters']['sender'], message['parameters']['message'])
+                except:
+                    traceback.print_exc()                   
+            
         elif message['action'] == 'log_send':
             event = MessageEvent(type='send', recipient=message['parameters']['recipient'], 
                                  message=message['parameters']['message'])

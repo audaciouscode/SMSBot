@@ -67,3 +67,8 @@ class Service(models.Model):
         self.status = status_check
 
         self.save();
+
+class AppApi(models.Model):
+    objects = ServiceManager()
+
+    app_name = models.CharField(max_length=256)
