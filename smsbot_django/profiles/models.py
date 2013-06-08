@@ -1,5 +1,6 @@
 import datetime
 import re
+import time
 
 from smsbot import local_settings
 
@@ -14,6 +15,19 @@ from django.conf.global_settings import LANGUAGES
 from django.contrib.auth.models import User
 from django.contrib.localflavor.us.models import PhoneNumberField
 from django.utils.encoding import smart_unicode
+
+def numeric_value(msg_string):
+    tokens = msg_string.split(' ')
+
+    non_decimal = re.compile(r'[^\d.]+')
+    
+    for token in tokens:
+        token = non_decimal.sub('', token)
+        
+        if len(token) > 0:
+            return float(token)
+            
+    return None
 
 def format_phone(phone_number):
     phone_number = re.sub('[^0-9]', '', phone_number)
@@ -33,6 +47,7 @@ class UserProfile(models.Model):
     
     user = models.ForeignKey(User, unique=True)
     primary_language = models.CharField(max_length=6, default='en', choices=LANGUAGES)
+    notes = models.TextField(max_length=8192, null=True, blank=True)
     
     def full_name(self):
         return self.user.first_name + ' ' + self.user.last_name
@@ -118,6 +133,22 @@ class UserProfile(models.Model):
 
     def tagged_message_count(self, variable, start, end):
         return self.scripts.filter(start_date__gte=start, start_date__lt=end, tags__icontains=variable).count()
+    
+    def numeric_values(self, variable):
+        from sms_messages.models import ScriptVariable
+        
+        variables = ScriptVariable.objects.filter(script__recipient=self, key__startswith=variable).order_by('recv_date')
+        
+        values = []
+
+        for variable in variables:
+            value = numeric_value(variable.value)
+            
+            if value != None:
+                values.append((time.mktime(variable.recv_date.timetuple()) * 1000, value))
+                
+        return values
+        
         
     def msg_statistics(self):
         from events.models import MessageEvent, ScriptEvent
@@ -135,7 +166,6 @@ class UserProfile(models.Model):
         ranges.append(('Year', now, datetime.timedelta(365)))
         ranges.append(('All', now, datetime.timedelta(365 * 100)))
 
-        
         for range in ranges:
             date_stats = {}
             date_stats['period'] = range[0]
