@@ -1,8 +1,9 @@
 import datetime
+import pytz
 import re
 import time
 
-from smsbot import local_settings
+from smsbot import local_settings, settings
 
 if local_settings.DISABLE_GEODJANGO:
     from django.db.models import Manager
@@ -134,20 +135,30 @@ class UserProfile(models.Model):
     def tagged_message_count(self, variable, start, end):
         return self.scripts.filter(start_date__gte=start, start_date__lt=end, tags__icontains=variable).count()
     
-    def numeric_values(self, variable):
+    def numeric_values(self, variable, start=None, end=None):
         from sms_messages.models import ScriptVariable
         
         variables = ScriptVariable.objects.filter(script__recipient=self, key__startswith=variable).order_by('recv_date')
         
+        if start != None and end != None:
+            variables = ScriptVariable.objects.filter(script__recipient=self, key__startswith=variable, recv_date__gte=start, recv_date__lte=end).order_by('recv_date')
+
+        local_tz = pytz.timezone(settings.TIME_ZONE)
+            
         values = []
 
         for variable in variables:
             value = numeric_value(variable.value)
             
+            recv_date = variable.recv_date.astimezone(local_tz)
+            
             if value != None:
-                values.append((time.mktime(variable.recv_date.timetuple()) * 1000, value))
+                values.append(((time.mktime(recv_date.timetuple()) * 1000), value))
                 
         return values
+        
+    def numeric_variables(self):
+        return [('mood', 'Mood Ratings',)]
         
         
     def msg_statistics(self):
