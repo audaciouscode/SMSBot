@@ -50,6 +50,9 @@ class UserProfile(models.Model):
     primary_language = models.CharField(max_length=6, default='en', choices=LANGUAGES)
     notes = models.TextField(max_length=8192, null=True, blank=True)
     
+    alert_mail = models.BooleanField(default=True)
+    alert_text = models.BooleanField(default=True)
+    
     def full_name(self):
         return self.user.first_name + ' ' + self.user.last_name
         
