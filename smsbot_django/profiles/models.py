@@ -23,10 +23,12 @@ def numeric_value(msg_string):
     non_decimal = re.compile(r'[^\d.]+')
     
     for token in tokens:
-        token = non_decimal.sub('', token)
+        token = non_decimal.sub(' ', token)
         
-        if len(token) > 0:
-            return float(token)
+        toks = token.split(' ')
+        
+        if len(toks) > 0:
+            return float(toks[0])
             
     return None
 
@@ -52,6 +54,8 @@ class UserProfile(models.Model):
     
     alert_mail = models.BooleanField(default=True)
     alert_text = models.BooleanField(default=True)
+    
+    active = models.BooleanField(default=True)
     
     def full_name(self):
         return self.user.first_name + ' ' + self.user.last_name
@@ -136,7 +140,7 @@ class UserProfile(models.Model):
         return self.tagged_message_count(variable, start, end) > 0
 
     def tagged_message_count(self, variable, start, end):
-        return self.scripts.filter(start_date__gte=start, start_date__lt=end, tags__icontains=variable).count()
+        return self.scripts.filter(start_date__gte=start, start_date__lte=end, tags__icontains=variable).count()
     
     def numeric_values(self, variable, start=None, end=None):
         from sms_messages.models import ScriptVariable
@@ -156,7 +160,7 @@ class UserProfile(models.Model):
             recv_date = variable.recv_date.astimezone(local_tz)
             
             if value != None:
-                values.append(((time.mktime(recv_date.timetuple()) * 1000), value))
+                values.append(((time.mktime(recv_date.timetuple()) * 1000), value, variable.source_message()))
                 
         return values
         

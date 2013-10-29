@@ -30,14 +30,18 @@ class ScriptTemplateAdmin(admin.OSMGeoAdmin):
 admin.site.register(ScriptTemplate, ScriptTemplateAdmin)
 
 class ScheduledScriptAdmin(admin.OSMGeoAdmin):
-    list_display = ('recipient', 'tags', 'session', 'start_date', 'sent_date', 'confirmed_date', 'completed_date', 'template', 'service')
+    list_display = ('recipient', 'tags', 'session', 'start_date', 'sent_date', 'confirmed_date', 'completed_date', 'template', 'service', 'skipped')
+    search_fields = ['tags']
 
     def initiate_script(self, request, queryset):
         service = Service.objects.best_service()
         
         if service:
             for script in queryset:
-                script.initiate(service)
+                if script.service:
+                    script.initiate(script.service)
+                else:
+                    script.initiate(service)
                 self.message_user(request, "Script successfully initiated with %s." % str(script.recipient))
         else:
             self.message_user(request, "Unable to iniatiate script. No suitable service found.")
@@ -46,12 +50,22 @@ class ScheduledScriptAdmin(admin.OSMGeoAdmin):
 
     actions = [initiate_script]
 
-    list_filter = ('start_date', 'sent_date', 'confirmed_date', 'completed_date', 'template', 'service')
+    list_filter = ('skipped', 'start_date', 'sent_date', 'confirmed_date', 'completed_date', 'template', 'service', 'recipient')
 
 admin.site.register(ScheduledScript, ScheduledScriptAdmin)
 
 class ScriptVariableAdmin(admin.OSMGeoAdmin):
     list_display = ('script', 'key', 'value', 'recv_date')
-    list_filter = ('key', 'recv_date', 'script')
+    list_filter = ('key', 'recv_date',)
+    search_fields = ['key', 'value']
+    
+    def mark_mood(self, request, queryset):
+        for variable in queryset:
+            variable.key = 'mood'
+            variable.save()
+        
+    mark_mood.short_description = "Mark as mood responses"
+
+    actions = [mark_mood]
 
 admin.site.register(ScriptVariable, ScriptVariableAdmin)

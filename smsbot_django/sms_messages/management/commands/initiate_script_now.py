@@ -14,6 +14,6 @@ class Command(BaseCommand):
             script = ScheduledScript.objects.get(pk=int(script_id))
 
             if script.service != None:
-                msg.initiate(script.service)
+                script.initiate(script.service)
             else:
                 script.initiate(best_service)

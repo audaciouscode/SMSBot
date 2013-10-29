@@ -1,3 +1,5 @@
+import string
+
 from smsbot import local_settings
 
 if local_settings.DISABLE_GEODJANGO:
@@ -37,3 +39,7 @@ class MessageEvent(models.Model):
     
     def from_system(self):
         return (self.sender == None)
+        
+    def escaped(self):
+        return string.replace(self.message, '&amp;', '&')
+    

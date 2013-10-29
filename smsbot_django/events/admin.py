@@ -9,6 +9,7 @@ admin.site.register(ScriptEvent, ScriptEventAdmin)
 
 
 class MessageEventAdmin(admin.OSMGeoAdmin):
+    search_fields = ['message', 'sender', 'recipient']
     list_display = ('type', 'sender', 'recipient', 'message', 'date')
     list_filter = ('type', 'sender', 'recipient', 'date')
 admin.site.register(MessageEvent, MessageEventAdmin)

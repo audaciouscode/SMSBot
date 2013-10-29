@@ -2,11 +2,11 @@
 
 from smsbot import local_settings
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Chris Karr', 'chris@audacious-software.com'),
+    ('Chris Karr', 'c-karr@northwestern.edu'),
 )
 
 MANAGERS = ADMINS
@@ -17,7 +17,7 @@ if local_settings.DISABLE_GEODJANGO:
             'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
             'NAME': 'smsbot',                      # Or path to database file if using sqlite3.
             'USER': 'root',                      # Not used with sqlite3.
-            'PASSWORD': 'smsbot',                  # Not used with sqlite3.
+            'PASSWORD': 'viand22:skew',                  # Not used with sqlite3.
             'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
             'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
         }
@@ -59,7 +59,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/var/www/django/smsbot/smsbot_django/media/'
+MEDIA_ROOT = '/home/moodtext/smsbot/smsbot_django/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -70,7 +70,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/var/www/django/smsbot/smsbot_django/static/'
+STATIC_ROOT = '/home/moodtext/smsbot/smsbot_django/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -178,5 +178,6 @@ LOGGING = {
     }
 }
 
-
 ACCOUNT_ACTIVATION_DAYS = 14
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

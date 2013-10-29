@@ -1,3 +1,5 @@
+import datetime
+import re
 import uuid
 
 from smsbot import local_settings
@@ -38,6 +40,9 @@ class ScheduledMessage(models.Model):
     errors = models.TextField(max_length=4096, blank=True, null=True)
     
     def transmit(self, service):
+        if service == None:
+            service = Service.objects.best_service()
+        
         service.transmit(self)
 
     def __unicode__(self):
@@ -117,10 +122,17 @@ class ScheduledScript(models.Model):
 
     service = models.ForeignKey(Service, related_name='scripts', null=True)
     
+    skipped = models.BooleanField(default=False)
+    
     errors = models.TextField(max_length=4096, blank=True, null=True)
     
     def initiate(self, service):
-        service.initiate(self)
+        if self.recipient.active == False:
+            self.sent_date = datetime.datetime.now()
+            self.skipped = True
+            self.save()
+        else:
+            service.initiate(self)
 
     def __unicode__(self):
         return self.session + ' (' + self.recipient.user.username + ')'
@@ -135,3 +147,38 @@ class ScriptVariable(models.Model):
     value = models.CharField(max_length=256)
 
     recv_date = models.DateTimeField(auto_now_add=True)
+    
+    def source_message(self):
+        from events.models import MessageEvent
+        
+        delta = datetime.timedelta(0, 5)
+        
+        start = self.recv_date - delta
+        end = self.recv_date + delta
+        
+        phone = self.script.recipient.best_phone()
+        
+        non_decimal = re.compile(r'[^\d.]+')
+        phone = non_decimal.sub('', phone)
+        
+        matches = MessageEvent.objects.filter(date__gte=start, date__lte=end, type='receive', sender__endswith=phone)
+        
+        if matches.count() > 0:
+            best_match = None
+            delta = 10
+            
+            for message in matches:
+                diff = abs((message.date - self.recv_date).seconds)
+
+                if diff < delta or best_match == None:
+                    delta = diff
+                    best_match = message.message
+                    
+            if best_match != None:
+                return best_match
+                
+        return self.value
+                    
+                    
+        
+        

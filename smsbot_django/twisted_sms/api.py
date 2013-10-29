@@ -44,6 +44,8 @@ class Endpoint:
         payload['parameters']['session'] = script.session
         payload['parameters']['retry'] = 0
         payload['parameters']['timeout'] = 0
+
+        print("INITING SCRIPT 2")
         
         payload['parameters']['vxml'] = script.script
 

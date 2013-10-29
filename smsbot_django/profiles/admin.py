@@ -3,7 +3,7 @@ from profiles.models import *
 from django.contrib.gis import admin
 
 class UserProfileAdmin(admin.OSMGeoAdmin):
-    list_display = ('user', 'primary_language')
+    list_display = ('user', 'primary_language', 'active')
 
 admin.site.register(UserProfile, UserProfileAdmin)
 
